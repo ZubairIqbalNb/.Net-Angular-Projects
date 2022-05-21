@@ -25,9 +25,35 @@ namespace DAAPI
         {
             services.AddApplicationServices(_config);
             services.AddControllers();
-            services.AddCors();
             services.AddIdentityServices(_config);
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                     policy => policy.WithOrigins("https://localhost:4200")
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    //.AllowCredentials()
+                    );
+            });
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "DAAPI",
+                    Description = "DAAPI",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Yasir Kuchay",
+                        Email = string.Empty,
+                    }
+                });
+
+            });
         }
+      
 
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,9 +68,17 @@ namespace DAAPI
 
             app.UseRouting();
 
-            app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200"));
+            app.UseCors("CorsPolicy");
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "DAAPI");
+            });
 
             app.UseAuthentication();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

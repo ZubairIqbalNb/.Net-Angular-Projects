@@ -67,11 +67,14 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "sslKey": "./ssl/server.key",
+            "sslCert": "./ssl/server.crt",
+            "ssl": true,
+            "browserTarget": "dafront:build"
+          },
           "configurations": {
             "production": {
-              "sslKey": "./ssl/server.key",
-              "sslCert": "./ssl/server.crt",
-              "ssl": true,
               "browserTarget": "dafront:build:production"
             },
             "development": {
