@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace DAAPI.Migrations
+namespace DAAPI.Data.Migrations
 {
     public partial class InitialCreate : Migration
     {
@@ -16,7 +16,7 @@ namespace DAAPI.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    UserName = table.Column<string>(type: "varchar(100)", nullable: false),
+                    UserName = table.Column<string>(type: "text", nullable: false),
                     PasswordHash = table.Column<byte[]>(type: "bytea", nullable: false),
                     PasswordSalt = table.Column<byte[]>(type: "bytea", nullable: false)
                 },
